@@ -28,7 +28,9 @@ jobs:
         with:
           # Optional version of wasm-pack to install(eg. 'v0.9.1', 'latest')
           version: 'latest'
+
       - name: Build
         run: |
+          ls
           wasm-pack --version
           wasm-pack build --target web
