@@ -29,7 +29,6 @@ jobs:
           # Optional version of wasm-pack to install(eg. 'v0.9.1', 'latest')
           version: 'latest'
       - name: Build
-        uses: actions/checkout@v2
         run: |
           wasm-pack --version
           wasm-pack build --target web
