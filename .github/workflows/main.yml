@@ -10,7 +10,7 @@ on:
     branches:
       - main
       - master
-      - github-workflow-test
+      - github-action
     tags:
       - '*'
   pull_request:
