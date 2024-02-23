@@ -50,6 +50,8 @@ jobs:
           export VITE_BINGMAPTILES=1 
           export VITE_TILESERVER=aisdb.meridian.cs.dal.ca
           npx vite build --outDir=../aisdb_web/dist_map_bingmaps
+          cd ..
+          mv ./map/pkg/ ./aisdb_web/map/pkg/
 
       - name: zip dist
         run: |
