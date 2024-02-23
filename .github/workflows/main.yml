@@ -29,8 +29,11 @@ jobs:
           # Optional version of wasm-pack to install(eg. 'v0.9.1', 'latest')
           version: 'latest'
 
-      - name: Build
+      - name: Dependencies
         run: |
-          ls
-          wasm-pack --version
-          wasm-pack build --target web
+          apt update -y && apt-get install clang -y
+          curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | bash -s -- -y --profile=minimal --target=wasm32-unknown-unknown
+          npm install -g wasm-pack
+
+      - name: Build
+        run: ls
