@@ -38,7 +38,7 @@ jobs:
 
       - name: Deploy
         run: |
-          cd ./aisdb_web/map/
+          cd ./aisdb_web/
           npm install
           cd map 
           export VITE_DISABLE_SSL_DB=1 
@@ -54,4 +54,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: aisdb_web
-          path: ./aisdb_web/
+          path: |
+            aisdb_web/map/pkg
+            aisdb_web/dist_map
+            aisdb_web/dist_map_bingmaps
