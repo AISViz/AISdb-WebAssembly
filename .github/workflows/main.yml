@@ -33,4 +33,5 @@ jobs:
           npm install -g wasm-pack
 
       - name: Build
-        run: ls
+        run: |
+          wasm-pack build --target=web --release --out-dir=/aisdb_web/map/pkg
