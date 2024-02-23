@@ -40,8 +40,8 @@ jobs:
       - name: Deploy
         run: |
           npm install
-          mkdir aisdb_web
-          cd map 
+          mkdir aisdb_web && cd aisdb_web && mkdir map && cd ..
+          cd map
           export VITE_DISABLE_SSL_DB=1 
           export VITE_DISABLE_STREAM=1 
           export VITE_AISDBHOST=localhost 
@@ -51,7 +51,7 @@ jobs:
           export VITE_TILESERVER=aisdb.meridian.cs.dal.ca
           npx vite build --outDir=../aisdb_web/dist_map_bingmaps
           cd ..
-          mv ./map/pkg/ ./aisdb_web/map/pkg/
+          mv ./map/pkg/ ./aisdb_web/map/
 
       - name: zip dist
         run: |
