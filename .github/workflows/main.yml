@@ -3,7 +3,7 @@
 #
 #    maturin generate-ci github
 #
-name: WebAssembly
+name: Web
 
 on:
   push:
@@ -34,27 +34,53 @@ jobs:
 
       - name: Build
         run: |
-          wasm-pack build --target=web --release --out-dir=./aisdb_web/map/pkg
+          cd ./web_assembly
+          wasm-pack build --target=web --release --out-dir=../map/pkg
 
       - name: Deploy
         run: |
-          cd ./aisdb_web/
           npm install
+          mkdir aisdb_web
           cd map 
           export VITE_DISABLE_SSL_DB=1 
           export VITE_DISABLE_STREAM=1 
           export VITE_AISDBHOST=localhost 
           export VITE_AISDBPORT=9924 
-          npx vite build --outDir=../dist_map
+          npx vite build --outDir=../aisdb_web/dist_map
           export VITE_BINGMAPTILES=1 
           export VITE_TILESERVER=aisdb.meridian.cs.dal.ca
-          npx vite build --outDir=../dist_map_bingmaps
+          npx vite build --outDir=../aisdb_web/dist_map_bingmaps
 
-      - name: Update Artifact
-        uses: actions/upload-artifact@v2
+      - name: zip dist
+        run: |
+          zip -r aisdb_web.zip aisdb_web
+
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
         with:
-          name: aisdb_web
-          path: |
-            aisdb_web/map/pkg
-            aisdb_web/dist_map
-            aisdb_web/dist_map_bingmaps
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          draft: true
+
+      - name: Upload Release Asset
+        uses: actions/upload-release-asset@v1.0.1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./aisdb_web.zip
+          asset_name: aisdb_web.zip
+          asset_content_type: application/zip
+
+#      - name: Update Artifact
+#        uses: actions/upload-artifact@v2
+#        with:
+#          name: aisdb_web
+#          path: |
+#            aisdb_web/map/pkg
+#            aisdb_web/dist_map
+#            aisdb_web/dist_map_bingmaps
+
