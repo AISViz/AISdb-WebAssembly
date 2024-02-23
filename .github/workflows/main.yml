@@ -38,20 +38,20 @@ jobs:
 
       - name: Deploy
         run: |
-          cd ./aisdb_web 
+          cd ./aisdb_web/map/
           npm install
           cd map 
           export VITE_DISABLE_SSL_DB=1 
           export VITE_DISABLE_STREAM=1 
           export VITE_AISDBHOST=localhost 
           export VITE_AISDBPORT=9924 
-          npx vite build --outDir=./dist_map
+          npx vite build --outDir=../dist_map
           export VITE_BINGMAPTILES=1 
           export VITE_TILESERVER=aisdb.meridian.cs.dal.ca
-          npx vite build --outDir=./dist_map_bingmaps
+          npx vite build --outDir=../dist_map_bingmaps
 
       - name: Update Artifact
         uses: actions/upload-artifact@v2
         with:
-          name: map
+          name: aisdb_web
           path: ./aisdb_web/
