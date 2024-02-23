@@ -34,4 +34,4 @@ jobs:
 
       - name: Build
         run: |
-          wasm-pack build --target=web --release --out-dir=/aisdb_web/map/pkg
+          wasm-pack build --target=web --release --out-dir=./map/pkg
